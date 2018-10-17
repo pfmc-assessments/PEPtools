@@ -1,0 +1,15 @@
+Package: PEPtools
+Title: Tools for Stock Assessment used by Population Ecology Program
+Version: 0.0.0.9000
+Authors@R: person("Kelli", "Johnson", email = "kelli.johnson@noaa.gov", role = c("aut", "cre"))
+Description: The package contains various tools that are useful to 
+    scientists at the Northwest Fisheries Science Center (NWFSC)
+    in the Population Ecology Program (PEP). Users typically spend the
+    majority of their time producing assessments of groundfish stock off the
+    US West Coast. Though, many of the tools will also be useful for 
+    the general science they conduct as well. 
+Depends: R (>= 3.5.1)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
