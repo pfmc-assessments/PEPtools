@@ -12,8 +12,8 @@
 #' @examples PEPmeeting(20180919, notattending = c("Ian"), snacks = c("Nis", "Owen"))
 #' 
 PEPmeeting <- function(date, notattending = NA,
-  leads = c("Brian", "Chantel", "Jason", "John", "Kelli", "Kristin", "Ian", "Melissa", "Vlada"),
-  snacks = c("Josh", "Owen", "Christine", "Kathryn")) {
+  leads = c("Aaron", "Andi", "Brian", "Chantel", "Jason", "John", "Kelli", "Kristin", "Ian", "Melissa", "Vlada"),
+  snacks = c("Owen", "Christine", "Claudio", "Kathryn")) {
 
   # Alternatively, calculate the seed based on N days after today
   #N <- 7
