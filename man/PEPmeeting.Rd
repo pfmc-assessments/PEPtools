@@ -4,9 +4,13 @@
 \alias{PEPmeeting}
 \title{Generate Meeting Lead and Snack People}
 \usage{
-PEPmeeting(date, notattending = NA, leads = c("John", "Jason", "Ian",
-  "Chantel", "Melissa", "Vlada", "Kristin", "Kelli"), snacks = c("Nis",
-  "Josh", "Owen", "Merrill"))
+PEPmeeting(
+  date,
+  notattending = NA,
+  leads = c("Aaron", "Andi", "Brian", "Chantel", "Jason", "John", "Kelli", "Kristin",
+    "Ian", "Melissa", "Vlada"),
+  snacks = c("Kathryn")
+)
 }
 \arguments{
 \item{date}{A numeric value giving the date of the meeting.}
@@ -22,6 +26,5 @@ are not leads.}
 Generate Meeting Lead and Snack People
 }
 \examples{
-PEPmeeting(20180919, notattending = c("Ian"), snacks = c("Nis", "Owen"))
-
+PEPtools::PEPmeeting(20200916, notattending=c("Owen", "Melissa"))
 }
