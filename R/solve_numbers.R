@@ -94,7 +94,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 	
 			shell("ss -nohess -maxfun 0 > output.txt 2>&1")
 	
-			rep = r4ss::SS_output(mod_dir, verbose = FALSE, printstats = FALSE)
+			rep = r4ss::SS_output(mod_dir, covar = FALSE, verbose = FALSE, printstats = FALSE)
 			bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
 
 			print(paste0("!!!!!!!!!!!!!!!!! Biomass = ", bio, " ABC = ", abc[i], "!!!!!!!!!!!!!!!!"))
