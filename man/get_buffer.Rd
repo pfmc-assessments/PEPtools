@@ -20,3 +20,9 @@ Buffer calculation for U.S. West Coast Groundfish Stocks
 Applies the time-varying sigma approach based on the 2019
 approach.
 }
+\examples{
+get_buffer(years = 2011:2032, sigma = 1.0, pstar = 0.4)
+}
+\author{
+written by Chantel Wetzel
+}

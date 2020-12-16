@@ -7,13 +7,13 @@
 #' function does a bisection approach to iteratively determine the number of fish
 #' that will match the fleet specified removals in terms of biomass.
 #'
-#' @parm mod_dir the directory of your model - all runs will be conducted in this folder
+#' @param mod_dir the directory of your model - all runs will be conducted in this folder
 #' make sure you are alright if the SS files are changed.
-#' @parm fore_yrs a vector of forecast years where removals are pre-specified
-#' @parm fleet_abc a vector of fleet specific abc values for the fleet that is currently
+#' @param fore_yrs a vector of forecast years where removals are pre-specified
+#' @param fleet_abc a vector of fleet specific abc values for the fleet that is currently
 #' in terms of numbers of fish. 
-#' @parm fleet fleet number within SS of the fleet that has removals in terms of numbers of
-#; fish.
+#' @param fleet fleet number within SS of the fleet that has removals in terms of numbers of
+#' fish.
 #'
 #'
 #'
@@ -49,7 +49,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 	starter$init_values_src = 1
 	max_phase = starter$last_estimation_phase
 	starter$last_estimation_phase = 0
-	SS_writestarter(starter, dir = mod_dir, overwrite = TRUE, verbose = FALSE)
+	r4ss::SS_writestarter(starter, dir = mod_dir, overwrite = TRUE, verbose = FALSE)
 
 	for(i in 1:length(yrs)){
 		# Start from the previous solution assuming abc's are similar
@@ -57,7 +57,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 			fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
 			fish = fore$ForeCatch[, "Catch or F"]
 			fore$ForeCatch[i, "Catch or F"] = fish[1] * abc[1]/abc[2]
-			SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
+			r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
 		}
 
 		for (a in 1:50){
@@ -90,7 +90,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 			
 			# Write out the new fish value to the forecast file
 			fore$ForeCatch[i, "Catch or F"] = new_value
-			SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
+			r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
 	
 			shell("ss -nohess -maxfun 0 > output.txt 2>&1")
 	
@@ -109,7 +109,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 	starter = r4ss::SS_readstarter(file.path(mod_dir, "starter.ss"))
 	starter$init_values_src = use_par
 	starter$last_estimation_phase = max_phase
-	SS_writestarter(starter, dir = mod_dir, overwrite = TRUE, verbose = FALSE)
+	r4ss::SS_writestarter(starter, dir = mod_dir, overwrite = TRUE, verbose = FALSE)
 
 
 }
