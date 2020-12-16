@@ -2,3 +2,4 @@
 
 export(PEPmeeting)
 export(get_buffer)
+export(r_install)
