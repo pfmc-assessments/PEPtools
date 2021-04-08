@@ -7,7 +7,7 @@ match management ABC values. If a fleet in your model has removals
 specified as numbers of fish (1,000s), SS will expect numbers of fish
 to be used in the forecast file for that fleet is there are pre-specified
 forecast removals.  This creates challenges when attempting to determine the
-right number of fish that will meet the harvest specified ABC values. This 
+right number of fish that will meet the harvest specified ABC values. This
 function does a bisection approach to iteratively determine the number of fish
 that will match the fleet specified removals in terms of biomass.}
 \usage{
@@ -31,7 +31,7 @@ match management ABC values. If a fleet in your model has removals
 specified as numbers of fish (1,000s), SS will expect numbers of fish
 to be used in the forecast file for that fleet is there are pre-specified
 forecast removals.  This creates challenges when attempting to determine the
-right number of fish that will meet the harvest specified ABC values. This 
+right number of fish that will meet the harvest specified ABC values. This
 function does a bisection approach to iteratively determine the number of fish
 that will match the fleet specified removals in terms of biomass.
 }
