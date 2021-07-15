@@ -35,3 +35,15 @@ right number of fish that will meet the harvest specified ABC values. This
 function does a bisection approach to iteratively determine the number of fish
 that will match the fleet specified removals in terms of biomass.
 }
+\examples{
+\dontrun{
+solve_numbers(mod_dir = "C:/Models/my_model", 
+		  fore_yrs = 2021:2022, 
+		  fleet_abc = c(5.5, 5), 
+		  fleet = 4)
+}
+
+}
+\author{
+Chantel Wetzel
+}

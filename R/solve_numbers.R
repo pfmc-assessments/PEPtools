@@ -15,7 +15,7 @@
 #' @param fleet fleet number within SS of the fleet that has removals in terms of numbers of
 #' fish.
 #'
-#' @author Chantel Wetzel & Kelli Johnson
+#' @author Chantel Wetzel
 #' @export
 #' 
 #' @examples
