@@ -13,9 +13,18 @@
 #' @parm fleet_abc a vector of fleet specific abc values for the fleet that is currently
 #' in terms of numbers of fish. 
 #' @parm fleet fleet number within SS of the fleet that has removals in terms of numbers of
-#; fish.
+#' fish.
 #'
-#'
+#' @author Chantel Wetzel & Kelli Johnson
+#' @export
+#' 
+#' @examples
+#' \dontrun{
+#' solve_numbers(mod_dir = "C:/Models/my_model", 
+#'			  fore_yrs = 2021:2022, 
+#'			  fleet_abc = c(5.5, 5), 
+#'			  fleet = 4)
+#'}
 #'
 solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 	# Set the wd to run the model
@@ -50,32 +59,35 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 	max_phase = starter$last_estimation_phase
 	starter$last_estimation_phase = 0
 	SS_writestarter(starter, dir = mod_dir, overwrite = TRUE, verbose = FALSE)
+	shell("ss -nohess -maxfun 0 > output.txt 2>&1")
 
 	for(i in 1:length(yrs)){
 		# Start from the previous solution assuming abc's are similar
 		if(i > 1){
 			fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
-			fish = fore$ForeCatch[, "Catch or F"]
-			fore$ForeCatch[i, "Catch or F"] = fish[1] * abc[1]/abc[2]
+			find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
+			fish = fore$ForeCatch[find, "Catch or F"]
+			fore$ForeCatch[find, "Catch or F"] = fish[1] * abc[1]/abc[2]
 			SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
 		}
 
 		for (a in 1:50){
 
 			if (a == 1){
-				rep = r4ss::SS_output(mod_dir, verbose = FALSE, printstats = FALSE)
+				rep = r4ss::SS_output(mod_dir, printstats = FALSE, verbose = FALSE, covar = FALSE)
 				bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
 			}
 	
 			fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
-			fish = fore$ForeCatch[i, "Catch or F"]
+			find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
+			fish = fore$ForeCatch[find, "Catch or F"]
 
 			if(bio < abc[i]){
-				step = ifelse( bio/abc[i] >= 0.5, 0.4*fish, 
-					   ifelse( bio/abc[i] > 0.5 & bio/abc[i] <= 0.2, 0.2*fish, 
-					   ifelse( bio/abc[i] > 0.2 & bio/abc[i] <= 0.1, 0.10*fish,
-					   ifelse( bio/abc[i] > 1.1 & bio/abc[i] <= 1.05, 0.05*fish,
-					   ifelse( bio/abc[i] > 1.05 & bio/abc[i] < 1.01, 0.01*fish,
+				step = ifelse( bio/abc[i] >= 0.50, 0.4*fish, 
+					   ifelse( bio/abc[i] < 0.50 & bio/abc[i] >= 0.20, 0.2*fish, 
+					   ifelse( bio/abc[i] < 0.20 & bio/abc[i] >= 0.10, 0.10*fish,
+					   ifelse( bio/abc[i] < 0.10 & bio/abc[i] >= 0.05, 0.05*fish,
+					   ifelse( bio/abc[i] < 0.05 & bio/abc[i] > 0.01, 0.01*fish,
 					   	0.001*fish)))))
 				new_value = fish + step
 			} else {
@@ -89,8 +101,8 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 			}
 			
 			# Write out the new fish value to the forecast file
-			fore$ForeCatch[i, "Catch or F"] = new_value
-			SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
+			fore$ForeCatch[find, "Catch or F"] = new_value
+			r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
 	
 			shell("ss -nohess -maxfun 0 > output.txt 2>&1")
 	
@@ -110,6 +122,5 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 	starter$init_values_src = use_par
 	starter$last_estimation_phase = max_phase
 	SS_writestarter(starter, dir = mod_dir, overwrite = TRUE, verbose = FALSE)
-
 
 }
