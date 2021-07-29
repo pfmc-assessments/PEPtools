@@ -14,7 +14,10 @@
 #' in terms of numbers of fish. 
 #' @param fleet fleet number within SS of the fleet that has removals in terms of numbers of
 #' fish.
-#'
+#' @param threshold percent that controls when the code determine a correct solution. The 
+#' default value of 0.01 results in the code identifying a solution as correct that is within
+#' 1 percent above or below the input fleet_abc value 
+#' (e.g., solution/fleet_abc > 0.99 & solution/fleet_abc < 1.01)
 #' @author Chantel Wetzel
 #' @export
 #' 
@@ -26,7 +29,7 @@
 #'			  fleet = 4)
 #'}
 #'
-solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
+solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold = 0.01){
 	# Set the wd to run the model
 	setwd(mod_dir)
 
@@ -40,6 +43,8 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 
 	yrs = fore_yrs
 	abc = fleet_abc
+	threshold_low = 1 - threshold
+	threshold_high = 1 - threshold
 
 	if(is.null(fleet)){
 		dat = r4ss::SS_readdat("data.ss_new")
@@ -110,7 +115,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL){
 			bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
 
 			print(paste0("!!!!!!!!!!!!!!!!! Biomass = ", bio, " ABC = ", abc[i], "!!!!!!!!!!!!!!!!"))
-			if (bio/abc[i] > 0.99 & bio/abc[i] < 1.01){
+			if (bio/abc[i] > threshold_low & bio/abc[i] < threshold_high){
 				print("Found solution")
 				break()
 			}
