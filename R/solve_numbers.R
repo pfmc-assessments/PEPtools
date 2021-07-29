@@ -93,7 +93,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold 
 					   ifelse( bio/abc[i] < 0.20 & bio/abc[i] >= 0.10, 0.10*fish,
 					   ifelse( bio/abc[i] < 0.10 & bio/abc[i] >= 0.05, 0.05*fish,
 					   ifelse( bio/abc[i] < 0.05 & bio/abc[i] > 0.01, 0.01*fish,
-					   	0.001*fish)))))
+					   	0.0005*fish)))))
 				new_value = fish + step
 			} else {
 				step = ifelse( bio/abc[i] >= 5, 0.4*fish, 
@@ -101,7 +101,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold 
 					   ifelse( bio/abc[i] < 2 & bio/abc[i] >= 1.1, 0.10*fish,
 					   ifelse( bio/abc[i] < 1.1 & bio/abc[i] >= 1.05, 0.05*fish,
 					   ifelse( bio/abc[i] < 1.05 & bio/abc[i] > 1.01, 0.01*fish,
-					   	0.001*fish)))))
+					   	0.0005*fish)))))
 				new_value = fish - step
 			}
 			
