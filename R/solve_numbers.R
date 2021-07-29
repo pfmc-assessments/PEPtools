@@ -43,8 +43,8 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold 
 
 	yrs = fore_yrs
 	abc = fleet_abc
-	threshold_low = 1 - threshold
-	threshold_high = 1 - threshold
+	threshold_low  = 1 - threshold
+	threshold_high = 1 + threshold
 
 	if(is.null(fleet)){
 		dat = r4ss::SS_readdat("data.ss_new")
