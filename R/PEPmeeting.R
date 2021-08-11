@@ -14,7 +14,7 @@
 PEPmeeting <- function(date, notattending = NA,
                        leads = c(
                          "Aaron", "Andi", "Brian", "Chantel", "Jason", "John",
-                         "Kelli", "Kristin", "Ian", "Melissa", "Vlada"
+                         "Kelli", "Kiva", "Kristin", "Ian", "Melissa", "Vlada"
                        ),
                        # snacks previously also contained Owen
                        snacks = c("Kathryn")) {
