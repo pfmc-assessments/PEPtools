@@ -10,14 +10,17 @@
 0.5 # SPR target (e.g. 0.40)
 0.4 # Biomass target (e.g. 0.40)
 #_Bmark_years: beg_bio, end_bio, beg_selex, end_selex, beg_relF, end_relF, beg_recr_dist, end_recr_dist, beg_SRparm, end_SRparm (enter actual year, or values of 0 or -integer to be rel. endyr)
- 2020 2020 2020 2020 2020 2020 1958 2020 1958 2020
+# Benchmark year choices can become complicated when there are time-varying parameters (either yearly or in blocks)  
+# This includes relative catch among fleets
+# There is no one way to do this, so particular attention should be given to these inputs for each model.  
+ 0 0 0 0 0 0 0 0 0 0 #year relative to end year as in SS3 manual
 #  2020 2020 2020 2020 2020 2020 1958 2020 1958 2020
 # value <0 convert to endyr-value; except -999 converts to start_yr; must be >=start_yr and <=endyr
-0 #Bmark_relF_Basis: 1 = use year range; 2 = set relF same as forecast below
+2 #Bmark_relF_Basis: 1 = use year range; 2 = set relF same as forecast below
 #
 1 # Forecast: -1=none; 0=simple_1yr; 1=F(SPR); 2=F(MSY) 3=F(Btgt) or F0.1; 4=Ave F (uses first-last relF yrs); 5=input annual F scalar
 # where none and simple require no input after this line; simple sets forecast F same as end year F
-12 # N forecast years 
+1 # N forecast years 
 1 # Fmult (only used for Do_Forecast==5) such that apical_F(f)=Fmult*relF(f)
 #_Fcast_years:  beg_selex, end_selex, beg_relF, end_relF, beg_mean recruits, end_recruits  (enter actual year, or values of 0 or -integer to be rel. endyr)
  0 0 0 0 -999 0
