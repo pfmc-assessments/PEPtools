@@ -1,63 +1,48 @@
-#' Generate Meeting Lead and Snack People
+#' Generate Meeting Lead and Scribe one year at a time
 #'
 #'
-#' @param date A numeric value giving the date of the meeting.
-#' @param notattending A vector of names of those not attending.
-#' @param leads A vector of potential leads.
-#' @param snacks A vector of people that can bring snacks but
-#' are not leads.
+#' @param year The year for which to generate the names. Defaults to the
+#' current year.
+#' @param people A vector of potential leads.
 #'
 #' @export
 #'
 #' @examples
-#' PEPtools::PEPmeeting(20200916, notattending=c("Owen", "Melissa"))
-PEPmeeting <- function(date, notattending = NA,
-                       leads = c(
+#' PEPtools::PEPmeeting()
+PEPmeeting <- function(year = format(Sys.time(), "%Y"),
+                       people = c(
                          "Aaron", "Andi", "Brian", "Chantel", "Jason", "John",
                          "Kelli", "Kiva", "Kristin", "Ian", "Melissa", "Vlada"
-                       ),
-                       # snacks previously also contained Owen
-                       snacks = c("Kathryn")) {
+                       )) {
+  set.seed(year)
 
-  # Alternatively, calculate the seed based on N days after today
-  # N <- 7
-  # (seed <- as.numeric(format(as.Date(Sys.time()) + N, "%Y%m%d")))
-  if (!is.numeric(date)) stop("date must be numeric")
-  set.seed(date)
+  # calculate of Wednesdays
+  # inspired by:
+  # https://stackoverflow.com/questions/5046708/calculate-the-number-of-weekdays-between-2-dates-in-r
+  start_date <- lubridate::ymd(paste0(year, "-01-01"))
+  # end date assumes no meetings on Christmas Eve or later
+  end_date <- lubridate::ymd(paste0(year, "-12-23"))
+  my_dates <- seq(from = start_date, to = end_date, by = "days")
+  Wednesdays <- my_dates[which(lubridate::wday(my_dates, label = TRUE) == "Wed")]
 
-  if (is.null("notattending")) {
-    notattending <- NA
-  }
-
-  if (all(is.na(match(notattending, leads)))) {
-    FRAM.Ass1 <- sort(leads)
-  } else {
-    out <- match(notattending, leads)
-    out <- out[!is.na(out)]
-    FRAM.Ass1 <- sort(leads[-out])
-  }
-
-  lead <- FRAM.Ass1[sample(length(FRAM.Ass1), 1)] # draw for lead
-
-  # list of potential snack names;
-  # remove lead from list of potential snack names and add any just snack folks
-  FRAM.Ass2.All <- c(FRAM.Ass1[!(FRAM.Ass1 %in% lead)], snacks)
-
-  if (all(is.na(match(notattending, FRAM.Ass2.All)))) {
-    FRAM.Ass2 <- sort(FRAM.Ass2.All)
-  } else {
-    out <- match(notattending, FRAM.Ass2.All)
-    out <- out[!is.na(out)]
-    FRAM.Ass2 <- sort(FRAM.Ass2.All[-out])
-  }
-
-  snacks <- FRAM.Ass2[sample(length(FRAM.Ass2), 1)] # draw for snacks
-
-  # print results
-  cat(
-    "\nThose not attending:  ", notattending,
-    "\nseed:  ", date,
-    "\nlead:  ", lead,
-    "\nsnacks:", snacks, "\n"
+  # get meeting lead
+  results <- data.frame(
+    date = Wednesdays,
+    lead = sample(people,
+      size = length(Wednesdays),
+      replace = TRUE
+    ),
+    scribe = NA
   )
+  # get scribe which doesn't match lead
+  for (irow in 1:length(Wednesdays)) {
+    lead <- results$people[irow]
+    results$scribe[irow] <- sample(setdiff(people, lead), size = 1)
+  }
+
+  # print results for copy paste into spreadsheet
+  print(results, row.names = FALSE)
+
+  # return the results invisibly
+  return(invisible(results))
 }
