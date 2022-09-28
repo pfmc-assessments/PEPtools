@@ -36,7 +36,7 @@ PEPmeeting <- function(year = format(Sys.time(), "%Y"),
   )
   # get scribe which doesn't match lead
   for (irow in 1:length(Wednesdays)) {
-    lead <- results$people[irow]
+    lead <- results$lead[irow]
     results$scribe[irow] <- sample(setdiff(people, lead), size = 1)
   }
 
