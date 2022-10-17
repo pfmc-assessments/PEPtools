@@ -64,16 +64,16 @@ pfmc_starter <- function() {
   lines <- insert_comment(
     x = lines,
     comments = c(
-      "Console and file output is verbose by default.",
+      "File output is verbose by default, console output is not.",
       "echoinput.sso and parmtrace.sso are useful for debugging.",
       "Turn off output to run models faster."
     ),
     pattern = "display"
   )
-  lines[grep("display|cumreport|data_boot", lines)] <- gsub(
+  lines[grep("data_boot", lines)] <- gsub(
     pattern = "^[0-9]",
     replacement = 2,
-    x = lines[grep("display|cumreport|data_boot", lines)]
+    x = lines[grep("data_boot", lines)]
   )
   lines[grep("echoinput\\.sso", lines)] <- gsub(
     pattern = "^[0-9]",

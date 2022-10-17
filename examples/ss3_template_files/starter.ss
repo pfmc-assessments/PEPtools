@@ -13,16 +13,16 @@
 .control.ss
 0 # 0=use init values in control file; 1=use ss.par
 # PFMC: #############################################################
-# PFMC: Console and file output is verbose by default.
+# PFMC: File output is verbose by default, console output is not.
 # PFMC: echoinput.sso and parmtrace.sso are useful for debugging.
 # PFMC: Turn off output to run models faster.
 # PFMC: #############################################################
-2 # run display detail (0,1,2)
+0 # run display detail (0,1,2)
 1 # detailed output (0=minimal for data-limited, 1=high (w/ wtatage.ss_new), 2=brief, 3=custom) 
 # custom report options: -100 to start with minimal; -101 to start with all; -number to remove, +number to add, -999 to end
 1 # write 1st iteration details to echoinput.sso file (0,1) 
 4 # write parm values to ParmTrace.sso (0=no,1=good,active; 2=good,all; 3=every_iter,all_parms; 4=every,active)
-2 # write to cumreport.sso (0=no,1=like&timeseries; 2=add survey fits)
+0 # write to cumreport.sso (0=no,1=like&timeseries; 2=add survey fits)
 # PFMC: #############################################################
 # PFMC: Priors, in penalized MLE, and soft bounds, symmetric beta priors,
 # PFMC: are turned on by default but see
