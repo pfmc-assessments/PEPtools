@@ -63,7 +63,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold 
 	starter$init_values_src = 1
 	max_phase = starter$last_estimation_phase
 	starter$last_estimation_phase = 0
-	SS_writestarter(starter, dir = mod_dir, overwrite = TRUE, verbose = FALSE)
+	r4ss::SS_writestarter(starter, dir = mod_dir, overwrite = TRUE, verbose = FALSE)
 	shell("ss -nohess -maxfun 0 > output.txt 2>&1")
 
 	for(i in 1:length(yrs)){
@@ -73,7 +73,7 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold 
 			find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
 			fish = fore$ForeCatch[find, "Catch or F"]
 			fore$ForeCatch[find, "Catch or F"] = fish[1] * abc[1]/abc[2]
-			SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
+			r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
 		}
 
 		for (a in 1:50){
