@@ -25,12 +25,12 @@
 #' @examples
 #' # Hope for a 0
 #' \dontrun{
-#' check_TMB()
+#' check_install_TMB()
 #' }
 #' # If you get something other than 0, run
 #' pkgbuild::find_rtools()
 #'
-check_TMB <- function() {
+check_install_TMB <- function() {
   stopifnot(pkgbuild::find_rtools())
   packages <- utils::installed.packages()
   if (!"TMB" %in% packages[, "Package"]) {
