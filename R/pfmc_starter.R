@@ -5,7 +5,7 @@
 #' from the Stock Synthesis GitHub organization with additional comments.
 #'
 #' @export
-#' @value A `starter.ss` file is saved to the current working directory.
+#' @return A `starter.ss` file is saved to the current working directory.
 #' @author Vladlena Gertseva, Kelli F. Johnson, Brian J. Langseth,
 #'   Kristin Marshall, Kiva L. Oken, Ian G. Taylor, John R. Wallace, and
 #'   Sophia Wasserman
