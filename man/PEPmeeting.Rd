@@ -6,8 +6,8 @@
 \usage{
 PEPmeeting(
   year = format(Sys.time(), "\%Y"),
-  people = c("Aaron", "Andi", "Brian", "Chantel", "Jason", "John", "Kelli", "Kiva",
-    "Kristin", "Ian", "Melissa", "Vlada")
+  people = c("Aaron", "Andi", "Brian", "Chantel", "Ian", "Jason", "John", "Kelli",
+    "Kiva", "Kristin", "Vlada")
 )
 }
 \arguments{
