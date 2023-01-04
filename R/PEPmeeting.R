@@ -11,8 +11,8 @@
 #' PEPtools::PEPmeeting()
 PEPmeeting <- function(year = format(Sys.time(), "%Y"),
                        people = c(
-                         "Aaron", "Andi", "Brian", "Chantel", "Jason", "John",
-                         "Kelli", "Kiva", "Kristin", "Ian", "Melissa", "Vlada"
+                         "Aaron", "Andi", "Brian", "Chantel", "Ian", "Jason", 
+                         "John", "Kelli", "Kiva", "Kristin", "Vlada"
                        )) {
   set.seed(year)
 
