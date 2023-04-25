@@ -15,6 +15,7 @@ Imports:
   pkgbuild,
   r4ss,
   remotes,
+  shinystan,
   stats,
   utils
 Suggests:
