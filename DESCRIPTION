@@ -10,6 +10,7 @@ Description: The package contains various tools that are useful to
     the general science they conduct as well. 
 Depends: R (>= 3.5.0)
 Imports:
+  adnuts,
   lubridate,
   pkgbuild,
   r4ss,
@@ -19,6 +20,9 @@ Imports:
 Suggests:
   devtools,
   TMB
+Remotes:
+  github::cole-monnahan-noaa/adnuts,
+  github::r4ss/r4ss
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
