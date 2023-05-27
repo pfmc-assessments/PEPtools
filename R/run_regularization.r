@@ -103,7 +103,7 @@ run_regularization <- function(dir_wd,
   if (verbose) summary(fit)
 
   # Interactive tools (must close out browser to regain console)
-  if (interactive) shinystan::launch_shinyadmb(fit)
+  if (interactive) adnuts::launch_shinyadmb(fit)
 
   # Extract posterior samples as a data.frame
   # ?extract_samples
