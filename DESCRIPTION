@@ -62,7 +62,8 @@ Authors@R: c(
       given = c("Jason"),
       family = "Cope",
       role = "ctb",
-      email = "jason.cope@noaa.gov"
+      email = "jason.cope@noaa.gov",
+      comment = c(ORCID = "0000-0001-7812-6728")
     ),
     person(
       given = c("Brian", "J."),
