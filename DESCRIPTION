@@ -1,6 +1,6 @@
 Package: PEPtools
 Title: Tools for Stock Assessments used by the Population Ecology Program
-Version: 0.0.2.0000
+Version: 0.0.2.0001
 Authors@R: c(
     person(
       given = c("Kelli", "F."),
@@ -79,6 +79,7 @@ Description: The package contains various tools that are useful to
 Depends: R (>= 3.5.0)
 Imports:
   adnuts,
+  glue,
   lubridate,
   pkgbuild,
   r4ss,
