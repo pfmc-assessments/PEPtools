@@ -1,7 +1,75 @@
 Package: PEPtools
 Title: Tools for Stock Assessments used by the Population Ecology Program
 Version: 0.0.2.0000
-Authors@R: person("Kelli", "Johnson", email = "kelli.johnson@noaa.gov", role = c("aut", "cre"))
+Authors@R: c(
+    person(
+      given = c("Kelli", "F."),
+      family = "Johnson",
+      role = c("aut", "cre"),
+      email = "kelli.johnson@noaa.gov",
+      comment = c(ORCID = "0000-0002-5149-451X")
+    ),
+    person(
+      given = c("Ian", "G."),
+      family = "Taylor",
+      role = "ctb",
+      email = "ian.taylor@noaa.gov",
+      comment = c(ORCID = "0000-0002-4232-5669")
+    ),
+    person(
+      given = c("Chantel", "R."),
+      family = "Wetzel",
+      role = "aut",
+      email = "chantel.wetzel@noaa.gov",
+      comment = c(ORCID = "0000-0002-7573-8240")
+    ),
+    person(
+      given = c("John", "R."),
+      family = "Wallace",
+      role = "ctb",
+      email = "john.wallace@noaa.gov",
+      comment = c(ORCID = "0000-0002-2333-1262")
+    ),
+    person(
+      given = c("Kiva"),
+      family = "Oken",
+      role = "ctb",
+      email = "kiva.oken@noaa.gov",
+      comment = c(ORCID = "0000-0002-5627-6837")
+    ),
+    person(
+      given = c("Kristin", "N."),
+      family = "Marshall",
+      role = "ctb",
+      email = "kristin.marshall@noaa.gov",
+      comment = c(ORCID = "0000-0002-9769-2300")
+    ),
+    person(
+      given = c("Edward", "J."),
+      family = "Dick",
+      role = "ctb",
+      email = "Edward.Dick@noaa.gov"
+    ),
+    person(
+      given = c("Melissa"),
+      family = "Monk",
+      role = "ctb",
+      email = "melissa.monk@noaa.gov"
+    ),
+    person(
+      given = c("Jason"),
+      family = "Cope",
+      role = "ctb",
+      email = "jason.cope@noaa.gov"
+    ),
+    person(
+      given = c("Brian", "J."),
+      family = "Langseth",
+      role = "ctb",
+      email = "brian.langseth@noaa.gov",
+      comment = c(ORCID = "0000-0002-9901-6146")
+    )
+    )
 Description: The package contains various tools that are useful to 
     scientists at the Northwest Fisheries Science Center (NWFSC)
     in the Population Ecology Program (PEP). Users typically spend the
@@ -16,6 +84,7 @@ Imports:
   r4ss,
   remotes,
   stats,
+  usethis,
   utils
 Suggests:
   devtools,
