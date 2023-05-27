@@ -48,13 +48,15 @@ Authors@R: c(
       given = c("Edward", "J."),
       family = "Dick",
       role = "ctb",
-      email = "Edward.Dick@noaa.gov"
+      email = "Edward.Dick@noaa.gov",
+      comment = c(ORCID = "0000-0001-7681-9176")
     ),
     person(
       given = c("Melissa"),
       family = "Monk",
       role = "ctb",
-      email = "melissa.monk@noaa.gov"
+      email = "melissa.monk@noaa.gov",
+      comment = c(ORCID = "0009-0007-6407-5131")
     ),
     person(
       given = c("Jason"),
