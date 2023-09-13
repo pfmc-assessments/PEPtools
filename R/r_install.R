@@ -3,7 +3,7 @@
 #' Install devtools with all of its dependencies, i.e.,
 #' \code{dependencies = c("Depends", "Imports", "LinkingTo", "Suggests")}
 #' such that many packages that are needed downstream are installed.
-#' 
+#'
 #' @details
 #' Install packages from the cloud R-project repository using a single
 #' call to install \pkg{devtools}. A single call is facilitated by
@@ -31,7 +31,7 @@ r_install <- function() {
     dependencies = c("Depends", "Imports", "LinkingTo", "Suggests"),
     verbose = FALSE, quiet = TRUE
   )
-  remotes::install_github("nwfsc-assess/nwfscAgeingError")
-  remotes::install_github("nwfsc-assess/nwfscMapping")
-  remotes::install_github("nwfsc-assess/nwfscSurvey")
+  remotes::install_github("pfmc-assessments/nwfscAgeingError")
+  remotes::install_github("pfmc-assessments/nwfscMapping")
+  remotes::install_github("pfmc-assessments/nwfscSurvey")
 }

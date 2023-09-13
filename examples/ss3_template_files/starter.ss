@@ -1,44 +1,66 @@
-#V3.30.19.01;_safe;_compile_date:_Apr 15 2022;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.3
+#V3.30.20.00;_safe;_compile_date:_Sep 30 2022;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.0
 #_Stock_Synthesis_is_a_work_of_the_U.S._Government_and_is_not_subject_to_copyright_protection_in_the_United_States.
 #_Foreign_copyrights_may_apply._See_copyright.txt_for_more_information.
 #_User_support_available_at:NMFS.Stock.Synthesis@noaa.gov
 #_User_info_available_at:https://vlab.noaa.gov/group/stock-synthesis
 #_Source_code_at:_https://github.com/nmfs-stock-synthesis/stock-synthesis
 
-2021_model_species.dat
-2021_model_species.ctl
+#C starter comment here
+# PFMC: #############################################################
+# PFMC: .[a-z].ss ensures data and control file are first.
+# PFMC: #############################################################
+.data.ss
+.control.ss
 0 # 0=use init values in control file; 1=use ss.par
-1 # run display detail (0 = none, 1 = one brief line of display for each iterations, 2=fuller display per iteration)
+# PFMC: #############################################################
+# PFMC: File output is verbose by default, console output is not.
+# PFMC: echoinput.sso and parmtrace.sso are useful for debugging.
+# PFMC: Turn off output to run models faster.
+# PFMC: #############################################################
+0 # run display detail (0,1,2)
 1 # detailed output (0=minimal for data-limited, 1=high (w/ wtatage.ss_new), 2=brief, 3=custom) 
 # custom report options: -100 to start with minimal; -101 to start with all; -number to remove, +number to add, -999 to end
-0 # write 1st iteration details to echoinput.sso file (0,1) 
-0 # write parm values to ParmTrace.sso (0=no,1=good,active; 2=good,all; 3=every_iter,all_parms; 4=every,active)
-1 # write to cumreport.sso (0=no, 1=like&timeseries; 2=add survey fits)
-1 # Include prior_like for non-estimated parameters (0=only calc for active parameters, 1=calc for prior for all parameters with priors) 
-# Turn off prior_like if profiling over a parameter with a prior if you do not want to include the prior likelihood 
-1 # Use Soft Boundaries to aid convergence (0 = omit, 1 = use) (recommended)
+1 # write 1st iteration details to echoinput.sso file (0,1) 
+4 # write parm values to ParmTrace.sso (0=no,1=good,active; 2=good,all; 3=every_iter,all_parms; 4=every,active)
+0 # write to cumreport.sso (0=no,1=like&timeseries; 2=add survey fits)
+# PFMC: #############################################################
+# PFMC: Priors, in penalized MLE, and soft bounds, symmetric beta priors,
+# PFMC: are turned on by default but see
+# PFMC: https://github.com/pfmc-assessments/nwfscDiag/issues/6
+# PFMC: for a discussion about the use of priors in likelihood profiles.
+# PFMC: #############################################################
+1 # Include prior_like for non-estimated parameters (0,1) 
+1 # Use Soft Boundaries to aid convergence (0,1) (recommended)
 #
-3 # Number of datafiles to produce:  0 turns off all *.ss_new; 1st is data_echo.ss_new, 2nd is data_expval.ss, 3rd and higher are data_boot_**N.ss,
-10 # Turn off estimation for parameters entering after this phase
+2 # Number of datafiles to produce:  0 turns off all *.ss_new; 1st is data_echo.ss_new, 2nd is data_expval.ss, 3rd and higher are data_boot_**N.ss,
+# PFMC: #############################################################
+# PFMC: Default max phase is well above typical number of phases,
+# PFMC: e.g., 10, to ensure all parameters are estimated.
+# PFMC: #############################################################
+100 # Turn off estimation for parameters entering after this phase
 #
-1 # MCeval burn interval
+0 # MCeval burn interval
 1 # MCeval thin interval
 0 # jitter initial parm value by this fraction
--1 # min yr for sdreport outputs (-1 for styr); #_1914
--2 # max yr for sdreport outputs (-1 for endyr+1; -2 for endyr+Nforecastyrs); #_2032
+-1 # min yr for sdreport outputs (-1 for styr)
+-2 # max yr for sdreport outputs (-1 for endyr+1; -2 for endyr+Nforecastyrs)
 0 # N individual STD years 
-# vector of year values is specifying STD year
-1e-04 # final convergence criteria (e.g. 1.0e-04) 
+#vector of year values 
+
+0.0001 # final convergence criteria (e.g. 1.0e-04) 
 0 # retrospective year relative to end year (e.g. -4)
-3 # min age for calc of summary biomass
-1 # Depletion basis:  denom is: 0=skip; 1=rel X*SPB0; 2=rel SPBmsy; 3=rel X*SPB_styr; 4=rel X*SPB_endyr; values; >=11 invoke N multiyr (up to 9!) with 10's digit; >100 invokes log(ratio)
+# PFMC: #############################################################
+# PFMC: Summary biomass equals total biomass to encourage users to,
+# PFMC: **CHANGE** the line below to be age at 50 percent maturity.
+# PFMC: #############################################################
+0 # min age for calc of summary biomass
+1 # Depletion basis:  denom is: 0=skip; 1=rel X*SPBvirgin; 2=rel SPBmsy; 3=rel X*SPB_styr; 4=rel X*SPB_endyr; values; >=11 invoke N multiyr (up to 9!) with 10's digit; >100 invokes log(ratio)
 1 # Fraction (X) for Depletion denominator (e.g. 0.4)
-4 # SPR_report_basis:  0=skip; 1=(1-SPR)/(1-SPR_tgt); 2=(1-SPR)/(1-SPR_MSY); 3=(1-SPR)/(1-SPR_Btarget); 4=rawSPR (reports 1-SPR)
-# 1 or 4 SPR_report_basis options used in West Coast groundfish assessments
-1 # Annual_F_units: 0=skip; 1=exploitation(Bio) calculated as catch/summary biomass; 2=exploitation(Num); 3=sum(Apical_F's); 4=true F for range of ages; 5=unweighted avg. F for range of ages
+4 # SPR_report_basis:  0=skip; 1=(1-SPR)/(1-SPR_tgt); 2=(1-SPR)/(1-SPR_MSY); 3=(1-SPR)/(1-SPR_Btarget); 4=rawSPR
+1 # F_reporting_units: 0=skip; 1=exploitation(Bio); 2=exploitation(Num); 3=sum(Apical_F's); 4=true F for range of ages; 5=unweighted avg. F for range of ages
 #COND 10 15 #_min and max age over which average F will be calculated with F_reporting=4 or 5
 0 # F_std_basis: 0=raw_annual_F; 1=F/Fspr; 2=F/Fmsy; 3=F/Fbtgt; where F means annual_F; values >=11 invoke N multiyr (up to 9!) with 10's digit; >100 invokes log(ratio)
 0 # MCMC output detail: integer part (0=default; 1=adds obj func components; 2= +write_report_for_each_mceval); and decimal part (added to SR_LN(R0) on first call to mcmc)
 0 # ALK tolerance ***disabled in code (example 0.0001)
--1 # random number seed for bootstrap data (-1 to use long(time) as seed): # 1653424853
+-1 # random number seed for bootstrap data (-1 to use long(time) as seed): # 1664576434
 3.30 # check value for end of file and for version control

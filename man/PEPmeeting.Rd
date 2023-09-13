@@ -2,29 +2,23 @@
 % Please edit documentation in R/PEPmeeting.R
 \name{PEPmeeting}
 \alias{PEPmeeting}
-\title{Generate Meeting Lead and Snack People}
+\title{Generate Meeting Lead and Scribe one year at a time}
 \usage{
 PEPmeeting(
-  date,
-  notattending = NA,
-  leads = c("Aaron", "Andi", "Brian", "Chantel", "Jason", "John", "Kelli", "Kristin",
-    "Ian", "Melissa", "Vlada"),
-  snacks = c("Kathryn")
+  year = format(Sys.time(), "\%Y"),
+  people = c("Aaron", "Andi", "Brian", "Chantel", "Ian", "Jason", "John", "Kelli",
+    "Kiva", "Kristin", "Vlada")
 )
 }
 \arguments{
-\item{date}{A numeric value giving the date of the meeting.}
+\item{year}{The year for which to generate the names. Defaults to the
+current year.}
 
-\item{notattending}{A vector of names of those not attending.}
-
-\item{leads}{A vector of potential leads.}
-
-\item{snacks}{A vector of people that can bring snacks but
-are not leads.}
+\item{people}{A vector of potential leads.}
 }
 \description{
-Generate Meeting Lead and Snack People
+Generate Meeting Lead and Scribe one year at a time
 }
 \examples{
-PEPtools::PEPmeeting(20200916, notattending=c("Owen", "Melissa"))
+PEPtools::PEPmeeting()
 }

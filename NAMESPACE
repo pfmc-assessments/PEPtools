@@ -2,6 +2,10 @@
 
 export(PEPmeeting)
 export(check_filename)
+export(check_install_TMB)
 export(get_buffer)
+export(pfmc_starter)
 export(r_install)
+export(run_regularization)
 export(solve_numbers)
+export(use_noaa_license)

@@ -67,13 +67,11 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, exe = "ss"
 
 	for(i in 1:length(yrs)){
 		
-	  # Run the model with the input abc value which will be incorrect but it will inform
-	  # the weight conversion
-		fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
-		find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
+	  fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
+	  find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
 		fore$ForeCatch[find, "Catch or F"] = abc[i]
 		r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
-		r4ss::run(exe = exe, extras = "-nohess -maxfun 0", skipfinished = FALSE)
+    r4ss::run(exe = exe, extras = "-nohess -maxfun 0", skipfinished = FALSE)
 
 		rep = r4ss::SS_output(mod_dir, printstats = FALSE, verbose = FALSE, covar = FALSE)
 		bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
