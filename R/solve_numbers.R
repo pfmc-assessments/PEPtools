@@ -12,12 +12,13 @@
 #' @param fore_yrs a vector of forecast years where removals are pre-specified
 #' @param fleet_abc a vector of fleet specific abc values for the fleet that is currently
 #' in terms of numbers of fish. 
-#' @param fleet fleet number within SS of the fleet that has removals in terms of numbers of
+#' @param fleet fleet number within SS3 of the fleet that has removals in terms of numbers of
 #' fish.
-#' @param threshold percent that controls when the code determine a correct solution. The 
+#' @param thresh Percent difference that controls if the model should be run again. The 
 #' default value of 0.01 results in the code identifying a solution as correct that is within
-#' 1 percent above or below the input fleet_abc value 
-#' (e.g., solution/fleet_abc > 0.99 & solution/fleet_abc < 1.01)
+#' 1 percent above or below the input fleet_abc value. The model will only be rerun once. This 
+#' threshold may need to be increased if the catch values are very small.
+#' @param exe The executable name for Stock Synthesis to be passed to the r4ss::run function.
 #' @author Chantel Wetzel
 #' @export
 #' 
@@ -29,7 +30,7 @@
 #'			  fleet = 4)
 #'}
 #'
-solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold = 0.01){
+solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, exe = "ss", thresh = 0.01){
 	# Set the wd to run the model
 	setwd(mod_dir)
 
@@ -43,8 +44,6 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold 
 
 	yrs = fore_yrs
 	abc = fleet_abc
-	threshold_low  = 1 - threshold
-	threshold_high = 1 + threshold
 
 	if(is.null(fleet)){
 		dat = r4ss::SS_readdat("data.ss_new")
@@ -64,62 +63,55 @@ solve_numbers <- function(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold 
 	max_phase = starter$last_estimation_phase
 	starter$last_estimation_phase = 0
 	r4ss::SS_writestarter(starter, dir = mod_dir, overwrite = TRUE, verbose = FALSE)
-	shell("ss -nohess -maxfun 0 > output.txt 2>&1")
+	r4ss::run(exe = exe, extras = "-nohess -maxfun 0", skipfinished = FALSE)
 
 	for(i in 1:length(yrs)){
-		# Start from the previous solution assuming abc's are similar
-		if(i > 1){
-			fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
-			find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
-			fish = fore$ForeCatch[find, "Catch or F"]
-			fore$ForeCatch[find, "Catch or F"] = fish[1] * abc[1]/abc[2]
-			r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
-		}
+		
+	  fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
+	  find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
+		fore$ForeCatch[find, "Catch or F"] = abc[i]
+		r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
+    r4ss::run(exe = exe, extras = "-nohess -maxfun 0", skipfinished = FALSE)
 
-		for (a in 1:50){
-
-			if (a == 1){
-				rep = r4ss::SS_output(mod_dir, printstats = FALSE, verbose = FALSE, covar = FALSE)
-				bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
-			}
-	
-			fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
-			find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
-			fish = fore$ForeCatch[find, "Catch or F"]
-
-			if(bio < abc[i]){
-				step = ifelse( bio/abc[i] >= 0.50, 0.4*fish, 
-					   ifelse( bio/abc[i] < 0.50 & bio/abc[i] >= 0.20, 0.2*fish, 
-					   ifelse( bio/abc[i] < 0.20 & bio/abc[i] >= 0.10, 0.10*fish,
-					   ifelse( bio/abc[i] < 0.10 & bio/abc[i] >= 0.05, 0.05*fish,
-					   ifelse( bio/abc[i] < 0.05 & bio/abc[i] > 0.01, 0.01*fish,
-					   	0.0005*fish)))))
-				new_value = fish + step
-			} else {
-				step = ifelse( bio/abc[i] >= 5, 0.4*fish, 
-					   ifelse( bio/abc[i] < 5 & bio/abc[i] >= 2, 0.2*fish, 
-					   ifelse( bio/abc[i] < 2 & bio/abc[i] >= 1.1, 0.10*fish,
-					   ifelse( bio/abc[i] < 1.1 & bio/abc[i] >= 1.05, 0.05*fish,
-					   ifelse( bio/abc[i] < 1.05 & bio/abc[i] > 1.01, 0.01*fish,
-					   	0.0005*fish)))))
-				new_value = fish - step
-			}
+		rep = r4ss::SS_output(mod_dir, printstats = FALSE, verbose = FALSE, covar = FALSE)
+		bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
+		num = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(N):_", fleet)]
+		wt <- bio/num
+		input_num <- abc[i]/wt
 			
-			# Write out the new fish value to the forecast file
-			fore$ForeCatch[find, "Catch or F"] = new_value
-			r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
+		fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
+		find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
+			
+		# Write out the solved input numbers based on the average weight and the abc
+		fore$ForeCatch[find, "Catch or F"] = input_num 
+		r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
+	  # Rerun the model
+		r4ss::run(exe = exe, extras = "-nohess -maxfun 0", skipfinished = FALSE)
 	
-			shell("ss -nohess -maxfun 0 > output.txt 2>&1")
-	
-			rep = r4ss::SS_output(mod_dir, covar = FALSE, verbose = FALSE, printstats = FALSE)
-			bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
+		rep = r4ss::SS_output(mod_dir, covar = FALSE, verbose = FALSE, printstats = FALSE)
+		bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
 
-			print(paste0("!!!!!!!!!!!!!!!!! Biomass = ", bio, " ABC = ", abc[i], "!!!!!!!!!!!!!!!!"))
-			if (bio/abc[i] > threshold_low & bio/abc[i] < threshold_high){
-				print("Found solution")
-				break()
-			}
-		} # a loop
+		print(paste0("!!!!!!!!!!!!!!!!! Biomass = ", bio, " ABC = ", abc[i], "!!!!!!!!!!!!!!!!"))
+		if(bio/abc[i] < (1 - thresh) | bio/abc[i] > (1 + thres)){
+		  bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
+		  num = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(N):_", fleet)]
+		  wt <- bio/num
+		  input_num <- abc[i]/wt
+		  
+		  fore = r4ss::SS_readforecast(file.path(mod_dir, "forecast.ss"), verbose = FALSE)
+		  find = which(fore$ForeCatch$Fleet == fleet & fore$ForeCatch$Year == yrs[i])
+		  
+		  # Write out the solved input numbers based on the average weight and the abc
+		  fore$ForeCatch[find, "Catch or F"] = input_num 
+		  r4ss::SS_writeforecast(fore, dir = mod_dir, overwrite = TRUE)
+		  # Rerun the model
+		  r4ss::run(exe = exe, extras = "-nohess -maxfun 0", skipfinished = FALSE)
+		  rep = r4ss::SS_output(mod_dir, covar = FALSE, verbose = FALSE, printstats = FALSE)
+		  bio = rep$timeseries[rep$timeseries$Yr == yrs[i], paste0("dead(B):_", fleet)]
+		  
+		  print(paste0("!!!!!!!!!!!!!!!!! Biomass = ", bio, " ABC = ", abc[i], "!!!!!!!!!!!!!!!!"))
+		  
+		}
 	}
 
 	# Change the max phase back to the original value
