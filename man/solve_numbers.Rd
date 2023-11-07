@@ -11,7 +11,14 @@ right number of fish that will meet the harvest specified ABC values. This
 function does a bisection approach to iteratively determine the number of fish
 that will match the fleet specified removals in terms of biomass.}
 \usage{
-solve_numbers(mod_dir, fore_yrs, fleet_abc, fleet = NULL, threshold = 0.01)
+solve_numbers(
+  mod_dir,
+  fore_yrs,
+  fleet_abc,
+  fleet = NULL,
+  exe = "ss",
+  thresh = 0.01
+)
 }
 \arguments{
 \item{mod_dir}{the directory of your model - all runs will be conducted in this folder
@@ -22,13 +29,15 @@ make sure you are alright if the SS files are changed.}
 \item{fleet_abc}{a vector of fleet specific abc values for the fleet that is currently
 in terms of numbers of fish.}
 
-\item{fleet}{fleet number within SS of the fleet that has removals in terms of numbers of
+\item{fleet}{fleet number within SS3 of the fleet that has removals in terms of numbers of
 fish.}
 
-\item{threshold}{percent that controls when the code determine a correct solution. The
+\item{exe}{The executable name for Stock Synthesis to be passed to the r4ss::run function.}
+
+\item{thresh}{Percent difference that controls if the model should be run again. The
 default value of 0.01 results in the code identifying a solution as correct that is within
-1 percent above or below the input fleet_abc value
-(e.g., solution/fleet_abc > 0.99 & solution/fleet_abc < 1.01)}
+1 percent above or below the input fleet_abc value. The model will only be rerun once. This
+threshold may need to be increased if the catch values are very small.}
 }
 \description{
 Function to solve out numbers of fish in the forecast to equal
