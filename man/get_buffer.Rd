@@ -2,23 +2,31 @@
 % Please edit documentation in R/buffer_fxn.R
 \name{get_buffer}
 \alias{get_buffer}
-\title{Buffer calculation for U.S. West Coast Groundfish Stocks
-Applies the time-varying sigma approach based on the 2019
-approach.}
+\title{Buffer calculation for West Coast groundish assessments}
 \usage{
 get_buffer(years, sigma, pstar)
 }
 \arguments{
-\item{years}{the years to generate buffer values for}
+\item{years}{Years to generate buffer values. The first year should align with
+the year of the assessment. Input should be vector of years to calulculate
+West Coast groundfish buffers for (e.g., years = 2021:2032).}
 
-\item{sigma}{the sigma value to use (cat 1 = 0.50, cat 2 = 1.0, cat 3 = 2.0)}
+\item{sigma}{The initial sigma value to use based on West Coast groundfish
+assessment categories (cat 1 = 0.50, cat 2 = 1.0, cat 3 = 2.0). For categories
+1 and 2 the sigma will be time-varying.}
 
-\item{pstar}{managment uncertainty value (i.e., 0.45, 0.40)}
+\item{pstar}{The management risk tolerance determined by the PFMC (i.e., 0.45, 0.40).}
 }
 \description{
+Buffer calculation for West Coast groundish assessments
+}
+\details{
 Buffer calculation for U.S. West Coast Groundfish Stocks
 Applies the time-varying sigma approach based on the 2019
-approach.
+approach described in:
+Wetzel, C.R. and O.S. Hamel, 2023. Applying a probability harvest control rule
+to account for increased uncertainty in setting precautionary harvest limits
+from past stock assessments. Fisheries Research 262: 106659.
 }
 \examples{
 get_buffer(years = 2011:2032, sigma = 1.0, pstar = 0.4)
