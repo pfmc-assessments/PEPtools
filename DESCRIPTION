@@ -2,102 +2,53 @@ Package: PEPtools
 Title: Tools for Stock Assessments used by the Population Ecology Program
 Version: 0.0.2.0001
 Authors@R: c(
-    person(
-      given = c("Kelli", "F."),
-      family = "Johnson",
-      role = c("aut", "cre"),
-      email = "kelli.johnson@noaa.gov",
-      comment = c(ORCID = "0000-0002-5149-451X")
-    ),
-    person(
-      given = c("Ian", "G."),
-      family = "Taylor",
-      role = "ctb",
-      email = "ian.taylor@noaa.gov",
-      comment = c(ORCID = "0000-0002-4232-5669")
-    ),
-    person(
-      given = c("Chantel", "R."),
-      family = "Wetzel",
-      role = "aut",
-      email = "chantel.wetzel@noaa.gov",
-      comment = c(ORCID = "0000-0002-7573-8240")
-    ),
-    person(
-      given = c("John", "R."),
-      family = "Wallace",
-      role = "ctb",
-      email = "john.wallace@noaa.gov",
-      comment = c(ORCID = "0000-0002-2333-1262")
-    ),
-    person(
-      given = c("Kiva"),
-      family = "Oken",
-      role = "ctb",
-      email = "kiva.oken@noaa.gov",
-      comment = c(ORCID = "0000-0002-5627-6837")
-    ),
-    person(
-      given = c("Kristin", "N."),
-      family = "Marshall",
-      role = "ctb",
-      email = "kristin.marshall@noaa.gov",
-      comment = c(ORCID = "0000-0002-9769-2300")
-    ),
-    person(
-      given = c("Edward", "J."),
-      family = "Dick",
-      role = "ctb",
-      email = "Edward.Dick@noaa.gov",
-      comment = c(ORCID = "0000-0001-7681-9176")
-    ),
-    person(
-      given = c("Melissa"),
-      family = "Monk",
-      role = "ctb",
-      email = "melissa.monk@noaa.gov",
-      comment = c(ORCID = "0009-0007-6407-5131")
-    ),
-    person(
-      given = c("Jason"),
-      family = "Cope",
-      role = "ctb",
-      email = "jason.cope@noaa.gov",
-      comment = c(ORCID = "0000-0001-7812-6728")
-    ),
-    person(
-      given = c("Brian", "J."),
-      family = "Langseth",
-      role = "ctb",
-      email = "brian.langseth@noaa.gov",
-      comment = c(ORCID = "0000-0002-9901-6146")
-    )
-    )
-Description: The package contains various tools that are useful to 
-    scientists at the Northwest Fisheries Science Center (NWFSC)
-    in the Population Ecology Program (PEP). Users typically spend the
-    majority of their time producing assessments of groundfish stock off the
-    U.S. West Coast. Though, many of the tools will also be useful for
-    the general science they conduct as well. 
-Depends: R (>= 3.5.0)
-Imports:
-  adnuts,
-  glue,
-  lubridate,
-  pkgbuild,
-  r4ss,
-  remotes,
-  stats,
-  usethis,
-  utils
-Suggests:
-  devtools,
-  TMB
-Remotes:
-  github::cole-monnahan-noaa/adnuts,
-  github::r4ss/r4ss
+    person(c("Kelli", "F."), "Johnson", , "kelli.johnson@noaa.gov", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-5149-451X")),
+    person(c("Ian", "G."), "Taylor", , "ian.taylor@noaa.gov", role = "ctb",
+           comment = c(ORCID = "0000-0002-4232-5669")),
+    person(c("Chantel", "R."), "Wetzel", , "chantel.wetzel@noaa.gov", role = "aut",
+           comment = c(ORCID = "0000-0002-7573-8240")),
+    person(c("John", "R."), "Wallace", , "john.wallace@noaa.gov", role = "ctb",
+           comment = c(ORCID = "0000-0002-2333-1262")),
+    person("Kiva", "Oken", , "kiva.oken@noaa.gov", role = "ctb",
+           comment = c(ORCID = "0000-0002-5627-6837")),
+    person(c("Kristin", "N."), "Marshall", , "kristin.marshall@noaa.gov", role = "ctb",
+           comment = c(ORCID = "0000-0002-9769-2300")),
+    person(c("Edward", "J."), "Dick", , "Edward.Dick@noaa.gov", role = "ctb",
+           comment = c(ORCID = "0000-0001-7681-9176")),
+    person("Melissa", "Monk", , "melissa.monk@noaa.gov", role = "ctb",
+           comment = c(ORCID = "0009-0007-6407-5131")),
+    person("Jason", "Cope", , "jason.cope@noaa.gov", role = "ctb",
+           comment = c(ORCID = "0000-0001-7812-6728")),
+    person(c("Brian", "J."), "Langseth", , "brian.langseth@noaa.gov", role = "ctb",
+           comment = c(ORCID = "0000-0002-9901-6146"))
+  )
+Description: The package contains various tools that are useful to
+    scientists at the Northwest Fisheries Science Center (NWFSC) in the
+    Population Ecology Program (PEP). Users typically spend the majority
+    of their time producing assessments of groundfish stock off the U.S.
+    West Coast. Though, many of the tools will also be useful for the
+    general science they conduct as well.
 License: MIT + file LICENSE
+Depends: 
+    R (>= 3.5.0)
+Imports:
+    adnuts,
+    glue,
+    lubridate,
+    pkgbuild,
+    r4ss,
+    remotes,
+    stats,
+    usethis,
+    utils
+Suggests:
+    devtools,
+    TMB
+Remotes:
+    github::cole-monnahan-noaa/adnuts,
+    github::r4ss/r4ss
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
