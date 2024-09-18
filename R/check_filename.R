@@ -38,7 +38,6 @@
 #' check_filename(tempdir())
 #'
 check_filename <- function(paths) {
-
   # Check for spaces
   stopifnot(all(!grepl("\\s", paths)))
 

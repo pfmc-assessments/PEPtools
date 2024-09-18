@@ -65,3 +65,21 @@ get_buffer <- function(years, sigma, pstar, verbose = TRUE){
 	return(out)
 }
 
+  # This is the equation for the rate of change in sigma
+  sigma_calc <- c(sigma, sigma * (1 + (y - 1) * r))
+  buffer <- exp(stats::qnorm(pstar, 0, sigma_calc))
+  max_buffer <- exp(stats::qnorm(pstar, 0, 2.0))
+  # Set the buffer for fixed catch years to 1.0
+  buffer[1:2] <- 1
+  category_3 <- which(buffer < max_buffer)
+  if (length(category_3) > 0) {
+    buffer[category_3] <- max_buffer
+  }
+
+  out <- data.frame(
+    year = years,
+    buffer = round(buffer, 3)
+  )
+
+  return(out)
+}

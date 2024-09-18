@@ -34,12 +34,16 @@ check_install_TMB <- function() {
   stopifnot(pkgbuild::find_rtools())
   packages <- utils::installed.packages()
   if (!"TMB" %in% packages[, "Package"]) {
-    stop("Use the following code to install TMB\n",
-      "install.packages('TMB')")
+    stop(
+      "Use the following code to install TMB\n",
+      "install.packages('TMB')"
+    )
   }
   if (!"TMBhelper" %in% packages[, "Package"]) {
-    stop("Use the following code to install TMBhelper\n",
-      "remotes::install_github('kaskr/TMB_contrib_R/TMBhelper')")
+    stop(
+      "Use the following code to install TMBhelper\n",
+      "remotes::install_github('kaskr/TMB_contrib_R/TMBhelper')"
+    )
   }
 
   wd <- getwd()
