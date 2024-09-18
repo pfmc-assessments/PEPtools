@@ -4,7 +4,7 @@
 \alias{get_buffer}
 \title{Buffer calculation for West Coast groundish assessments}
 \usage{
-get_buffer(years, sigma, pstar)
+get_buffer(years, sigma, pstar, verbose = TRUE)
 }
 \arguments{
 \item{years}{Years to generate buffer values. The first year should align with
@@ -16,6 +16,9 @@ assessment categories (cat 1 = 0.50, cat 2 = 1.0, cat 3 = 2.0). For categories
 1 and 2 the sigma will be time-varying.}
 
 \item{pstar}{The management risk tolerance determined by the PFMC (i.e., 0.45, 0.40).}
+
+\item{verbose}{A logical that specifies if you want to print messages and
+warnings to the console. The default is \code{TRUE}.}
 }
 \description{
 Buffer calculation for West Coast groundish assessments

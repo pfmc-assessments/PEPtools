@@ -82,6 +82,7 @@ Description: The package contains various tools that are useful to
 Depends: R (>= 3.5.0)
 Imports:
   adnuts,
+  cli,
   glue,
   lubridate,
   pkgbuild,
@@ -99,5 +100,5 @@ Remotes:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
