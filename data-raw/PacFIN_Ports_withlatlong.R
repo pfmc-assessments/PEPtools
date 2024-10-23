@@ -11,8 +11,8 @@ pacfin_ports_withlatlong <- pacfin_ports_withlatlong_raw |>
     pcid = "Port code used in PacFIN",
     agencydesc = "State agency port name.",
     agid = "State agency identifier where W = Washington, O = Oregon, and C = California.",
-    longitude = "Longitude of the port location.",
-    latitude = "Latitude of the port location."
+    longitude = "Longitude of the port location with minutes and seconds in radians.",
+    latitude = "Latitude of the port location with minutes and seconds in radians."
   )
 usethis::use_data(pacfin_ports_withlatlong, overwrite = TRUE)
 
