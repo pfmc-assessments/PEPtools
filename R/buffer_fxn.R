@@ -23,45 +23,43 @@
 #' @author written by Chantel Wetzel
 #' @export
 #'
-get_buffer <- function(years, sigma, pstar, verbose = TRUE){
-
-	y <- 1:(length(years) - 1)
-	if (sigma != 2.0) {
-	  # the rate of change in sigma approved by the SSC in 2019
-	  r <- 0.075
-	} else {
+get_buffer <- function(years, sigma, pstar, verbose = TRUE) {
+  y <- 1:(length(years) - 1)
+  if (sigma != 2.0) {
+    # the rate of change in sigma approved by the SSC in 2019
+    r <- 0.075
+  } else {
     r <- 0
-	}
-	if (verbose) {
-	  cli::cli_inform(
-	    "The sigma value of {sigma} adjusts yearly by the rate of {r}."
-	  )
-	}
+  }
+  if (verbose) {
+    cli::cli_inform(
+      "The sigma value of {sigma} adjusts yearly by the rate of {r}."
+    )
+  }
 
-	# This is the equation for the rate of change in sigma
-	sigma_calc <-  c(sigma, sigma * (1+(y-1)*r))
-	buffer <- exp(stats::qnorm(pstar, 0, sigma_calc))
-	max_buffer <- round(exp(stats::qnorm(pstar, 0, 2.0)), 3)
-	# Set the buffer for fixed catch years to 1.0
-	buffer[1:2] <- 1
-	category_3 <- which(buffer < max_buffer)
-	if (length(category_3) > 0) {
-	  if (sigma != 2) {
-	    if (verbose) {
-	      cli::cli_inform(
-	        "The buffer exceeds that category 3 buffer and is capped at {max_buffer} for
+  # This is the equation for the rate of change in sigma
+  sigma_calc <- c(sigma, sigma * (1 + (y - 1) * r))
+  buffer <- exp(stats::qnorm(pstar, 0, sigma_calc))
+  max_buffer <- round(exp(stats::qnorm(pstar, 0, 2.0)), 3)
+  # Set the buffer for fixed catch years to 1.0
+  buffer[1:2] <- 1
+  category_3 <- which(buffer < max_buffer)
+  if (length(category_3) > 0) {
+    if (sigma != 2) {
+      if (verbose) {
+        cli::cli_inform(
+          "The buffer exceeds that category 3 buffer and is capped at {max_buffer} for
 			    {years[category_3]}."
-	      )
-	    }
-	  }
-	  buffer[category_3] <- max_buffer
-	}
+        )
+      }
+    }
+    buffer[category_3] <- max_buffer
+  }
 
-	out <- data.frame(
-	  year = years,
-	  buffer = round(buffer, 3)
-	  )
+  out <- data.frame(
+    year = years,
+    buffer = round(buffer, 3)
+  )
 
-	return(out)
+  return(out)
 }
-

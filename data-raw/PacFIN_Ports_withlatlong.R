@@ -15,4 +15,3 @@ pacfin_ports_withlatlong <- pacfin_ports_withlatlong_raw |>
     latitude = "Latitude of the port location with minutes and seconds in radians."
   )
 usethis::use_data(pacfin_ports_withlatlong, overwrite = TRUE)
-
