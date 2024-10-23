@@ -12,7 +12,7 @@
 PEPmeeting <- function(year = format(Sys.time(), "%Y"),
                        people = c(
                          "Aaron", "Brian", "Chantel", "Ian", "Jason",
-                         "John", "Kelli", "Kiva", "Kristin", "Vlada"
+                         "John", "Kiva", "Kristin", "Vlada"
                        )) {
   set.seed(year)
 
