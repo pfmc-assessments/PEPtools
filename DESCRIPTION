@@ -2,12 +2,10 @@ Package: PEPtools
 Title: Tools for Stock Assessments used by the Population Ecology Program
 Version: 0.0.2.0001
 Authors@R: c(
-    person(c("Kelli", "F."), "Johnson", , "kelli.johnson@noaa.gov", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-5149-451X")),
+    person(c("Chantel", "R."), "Wetzel", , "chantel.wetzel@noaa.gov", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7573-8240")),
     person(c("Ian", "G."), "Taylor", , "ian.taylor@noaa.gov", role = "ctb",
            comment = c(ORCID = "0000-0002-4232-5669")),
-    person(c("Chantel", "R."), "Wetzel", , "chantel.wetzel@noaa.gov", role = "aut",
-           comment = c(ORCID = "0000-0002-7573-8240")),
     person(c("John", "R."), "Wallace", , "john.wallace@noaa.gov", role = "ctb",
            comment = c(ORCID = "0000-0002-2333-1262")),
     person("Kiva", "Oken", , "kiva.oken@noaa.gov", role = "ctb",
