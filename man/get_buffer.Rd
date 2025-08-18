@@ -4,7 +4,7 @@
 \alias{get_buffer}
 \title{Buffer calculation for West Coast groundish assessments}
 \usage{
-get_buffer(years, sigma, pstar, verbose = TRUE)
+get_buffer(years, sigma, pstar, m = NULL, verbose = TRUE)
 }
 \arguments{
 \item{years}{Years to generate buffer values. The first year should align with
@@ -16,6 +16,10 @@ assessment categories (cat 1 = 0.50, cat 2 = 1.0, cat 3 = 2.0). For categories
 1 and 2 the sigma will be time-varying.}
 
 \item{pstar}{The management risk tolerance determined by the PFMC (i.e., 0.45, 0.40).}
+
+\item{m}{A vector of natural mortality value(s) by sex. If added the function will
+calculate the geometric mean to determine if m > 0.15 which requires a higher
+rate of change in sigma. Default is NULL.}
 
 \item{verbose}{A logical that specifies if you want to print messages and
 warnings to the console. The default is \code{TRUE}.}
@@ -32,7 +36,8 @@ to account for increased uncertainty in setting precautionary harvest limits
 from past stock assessments. Fisheries Research 262: 106659.
 }
 \examples{
-get_buffer(years = 2011:2032, sigma = 1.0, pstar = 0.4)
+get_buffer(years = 2025:2036, sigma = 1.0, pstar = 0.4)
+get_buffer(years = 2025:2036, sigma = 0.5, pstar = 0.45, m = c(0.16, 0.18))
 }
 \author{
 written by Chantel Wetzel
