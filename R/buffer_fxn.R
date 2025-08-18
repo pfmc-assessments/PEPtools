@@ -27,15 +27,17 @@
 #' @author written by Chantel Wetzel
 #' @export
 #'
-get_buffer <- function(years, sigma, pstar, m = NULL, verbose = TRUE){
-  
+get_buffer <- function(years, sigma, pstar, m = NULL, verbose = TRUE) {
   r <- dplyr::case_when(
     sigma == 2.0 ~ 0,
-    sigma < 2.0 ~ 0.075)
-  
+    sigma < 2.0 ~ 0.075
+  )
+
   if (!is.null(m)) {
     geom_m <- round(exp(mean(log(m))), 3)
-    if (geom_m > 0.15 & sigma != 2.0) { r <- 0.52 * geom_m} 
+    if (geom_m > 0.15 & sigma != 2.0) {
+      r <- 0.52 * geom_m
+    }
     if (verbose) {
       cli::cli_inform(
         "The geometric mean of natural mortality values is {geom_m}."
@@ -49,25 +51,25 @@ get_buffer <- function(years, sigma, pstar, m = NULL, verbose = TRUE){
     }
   }
 
-	if (verbose) {
-	  cli::cli_inform(
-	    "The sigma value of {sigma} adjusts yearly by the rate of {r}."
-	  )
-	}
-  
+  if (verbose) {
+    cli::cli_inform(
+      "The sigma value of {sigma} adjusts yearly by the rate of {r}."
+    )
+  }
+
   y <- 1:(length(years) - 1)
-	# This is the equation for the rate of change in sigma
-	sigma_calc <-  c(sigma, sigma * (1+(y-1)*r))
-	buffer <- exp(stats::qnorm(pstar, 0, sigma_calc))
-	max_buffer <- round(exp(stats::qnorm(pstar, 0, 2.0)), 3)
-	# Set the buffer for fixed catch years to 1.0
-	buffer[1:2] <- 1
-	category_3 <- which(buffer < max_buffer)
-	if (length(category_3) > 0) {
-	  if (sigma != 2) {
-	    if (verbose) {
-	      cli::cli_inform(
-	        "The buffer exceeds that category 3 buffer and is capped at {max_buffer} for
+  # This is the equation for the rate of change in sigma
+  sigma_calc <- c(sigma, sigma * (1 + (y - 1) * r))
+  buffer <- exp(stats::qnorm(pstar, 0, sigma_calc))
+  max_buffer <- round(exp(stats::qnorm(pstar, 0, 2.0)), 3)
+  # Set the buffer for fixed catch years to 1.0
+  buffer[1:2] <- 1
+  category_3 <- which(buffer < max_buffer)
+  if (length(category_3) > 0) {
+    if (sigma != 2) {
+      if (verbose) {
+        cli::cli_inform(
+          "The buffer exceeds that category 3 buffer and is capped at {max_buffer} for
 			    {years[category_3]}."
         )
       }
