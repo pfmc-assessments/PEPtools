@@ -10,7 +10,6 @@
 #'   Kristin Marshall, Kiva L. Oken, Ian G. Taylor, John R. Wallace, and
 #'   Sophia Wasserman
 #'
-#' @examples
 #'
 pfmc_starter <- function() {
   # Create a local function

@@ -14,11 +14,6 @@ Write a \code{starter.ss} file for assessments presented to the
 Pacific Fisheries Management Council (PFMC) using a \code{starter.ss_new} file
 from the Stock Synthesis GitHub organization with additional comments.
 }
-\examples{
-pfmc_starter()
-unlink("starter.ss")
-
-}
 \author{
 Vladlena Gertseva, Kelli F. Johnson, Brian J. Langseth,
 Kristin Marshall, Kiva L. Oken, Ian G. Taylor, John R. Wallace, and
