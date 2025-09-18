@@ -11,9 +11,10 @@
 #'   Sophia Wasserman
 #'
 #' @examples
-#' pfmc_starter()
-#' unlink("starter.ss")
-#'
+#' \dontrun{
+#'   pfmc_starter()
+#'   unlink("starter.ss")
+#' }
 pfmc_starter <- function() {
   # Create a local function
   insert_comment <- function(x, comments, pattern) {
