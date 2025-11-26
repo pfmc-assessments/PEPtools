@@ -12,33 +12,43 @@ add_alttext(
 )
 }
 \arguments{
-\item{dir}{directory where the tex file is located that will be edited}
+\item{dir}{directory where the tex file is located that will be edited.
+Should be absolute file path or relative to current working directory.}
 
-\item{alttext_csv}{Path to file containing labels, alt text, and captions}
+\item{alttext_csv}{Absolute path or path relative to your current working
+directory to file containing labels and alt text}
 
-\item{compile}{Indicate whether the document (X) should be
+\item{compile}{Indicate whether the document should be
 rendered after these files are changed. Default TRUE.}
 
 \item{rename}{Indicate a name for the new tex file produced from this
 function. There is no need to include ".tex" in the name. Defaults to current
-name and overwrites the current tex file.}
+name and overwrites the current tex file. If you provide a name, new file will
+be dir/new_name.tex}
 }
 \description{
 Add alternative text into latex
 }
 \details{
 This function was made to help add in
-alternative text to latex documents generated from
+alternative text to LaTeX documents generated from
 quarto. Quarto does not currently contain a way to
 add alternative text to PDF documents, so this function
 was developed as a work around. The addition of alternative
-text needs to be found in either 1)_the rda files produced from
+text needs to be found in either 1) the rda files produced from
 stockplotr::exp_all_figs_tables, 2) the captions_alt_text.csv also produced from
 the same function, or 3) a csv file with
 columns containing "label" and "alt_text". All figure labels in the qmd files must contain a "fig-" prefix.
 The "label" column of the csv file must remove that "fig-" prefix.
 
-Debugging tip: If you get an error "Paragraph ended before HyPsd@ProtectSpacesFi was complete" along with a line number, the figure near that line does not have alt text in the csv file.
+Figures will no longer automatically be resized to the page margins unless you
+have forced that in another way. Adding the following code to your LaTeX
+header SHOULD work
+\verb{\\setkeys\{Gin\}\{width=\\linewidth\}}
+
+Debugging tip: If you get an error "Paragraph ended before
+HyPsd@ProtectSpacesFi was complete" along with a line number, the figure
+near that line in the tex file does not have alt text in the csv file.
 }
 \author{
 Samantha Schiano, Sophie Breitbart, Kiva Oken
