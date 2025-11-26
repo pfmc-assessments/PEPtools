@@ -59,7 +59,7 @@ add_alttext <- function(
     )
     if (length(label_line_idx) == 0) {
       stop(paste(
-        'The following figure label does not appear in the document:',
+        "The following figure label does not appear in the document:",
         label
       ))
     }
