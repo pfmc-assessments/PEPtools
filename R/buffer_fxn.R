@@ -85,7 +85,7 @@ get_buffer <- function(years, sigma, pstar, m = NULL, verbose = TRUE) {
     sigma_calc[category_3] <- 2.0 # cap sigma to match the capped buffer for those years
   }
 
-  # combine resulting into a table for output
+  # combine results into a table for output
   out <- data.frame(
     year = years,
     # buffer is typically rounded to 3 digits
