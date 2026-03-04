@@ -18,6 +18,8 @@
 #' @param m A vector of natural mortality value(s) by sex. If added the function will
 #'   calculate the geometric mean to determine if m > 0.15 which requires a higher
 #'   rate of change in sigma. Default is NULL.
+#' @param report_sigma A logical that specifies if you want to include a column
+#'   of the sigma values used in the buffer calculation. The default is `FALSE`.
 #' @param verbose A logical that specifies if you want to print messages and
 #'   warnings to the console. The default is `TRUE`.
 #'
@@ -27,7 +29,7 @@
 #' @author written by Chantel Wetzel
 #' @export
 #'
-get_buffer <- function(years, sigma, pstar, m = NULL, verbose = TRUE) {
+get_buffer <- function(years, sigma, pstar, m = NULL, report_sigma = FALSE, verbose = TRUE) {
   r <- dplyr::case_when(
     sigma == 2.0 ~ 0,
     sigma < 2.0 ~ 0.075
@@ -80,7 +82,16 @@ get_buffer <- function(years, sigma, pstar, m = NULL, verbose = TRUE) {
   out <- data.frame(
     year = years,
     buffer = round(buffer, 3)
+
   )
+
+  # optionally report sigma
+  # rounding to 4 digits because the for many stocks, the combination of the 
+  # 0.075 adjustment and the default sigma = 0.5 is exact to 4 digits. 
+  if (report_sigma) {
+    out$hash <- "#"
+    out$sigma <- round(sigma_calc, 4) 
+  }
 
   return(out)
 }

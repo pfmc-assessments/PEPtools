@@ -4,7 +4,7 @@
 \alias{get_buffer}
 \title{Buffer calculation for West Coast groundish assessments}
 \usage{
-get_buffer(years, sigma, pstar, m = NULL, verbose = TRUE)
+get_buffer(years, sigma, pstar, m = NULL, report_sigma = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{years}{Years to generate buffer values. The first year should align with
@@ -20,6 +20,9 @@ assessment categories (cat 1 = 0.50, cat 2 = 1.0, cat 3 = 2.0). For categories
 \item{m}{A vector of natural mortality value(s) by sex. If added the function will
 calculate the geometric mean to determine if m > 0.15 which requires a higher
 rate of change in sigma. Default is NULL.}
+
+\item{report_sigma}{A logical that specifies if you want to include a column
+of the sigma values used in the buffer calculation. The default is \code{FALSE}.}
 
 \item{verbose}{A logical that specifies if you want to print messages and
 warnings to the console. The default is \code{TRUE}.}
