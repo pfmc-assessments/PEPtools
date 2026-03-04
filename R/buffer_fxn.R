@@ -93,7 +93,7 @@ get_buffer <- function(years, sigma, pstar, m = NULL, verbose = TRUE) {
     # adding a column of "#" so the sigma column will be ignored
     # by SS3 when reading the forecast file
     hash = "#",
-    # rounding sigma to 4 digits because the for many stocks the
+    # rounding sigma to 4 digits because for many stocks the
     # 0.075 adjustment and the default sigma = 0.5 result in values
     # that are exact to 4 digits.
     sigma = round(sigma_calc, 4)
