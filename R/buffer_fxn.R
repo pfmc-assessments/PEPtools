@@ -18,18 +18,23 @@
 #' @param m A vector of natural mortality value(s) by sex. If added the function will
 #'   calculate the geometric mean to determine if m > 0.15 which requires a higher
 #'   rate of change in sigma. Default is NULL.
-#' @param report_sigma A logical that specifies if you want to include a column
-#'   of the sigma values used in the buffer calculation. The default is `FALSE`.
 #' @param verbose A logical that specifies if you want to print messages and
 #'   warnings to the console. The default is `TRUE`.
 #'
 #' @examples
 #' get_buffer(years = 2025:2036, sigma = 1.0, pstar = 0.4)
 #' get_buffer(years = 2025:2036, sigma = 0.5, pstar = 0.45, m = c(0.16, 0.18))
+#' \dontrun{
+#'   # add buffer to forecast file of SS3 model
+#'   inputs <- r4ss::SS_read(mydir)
+#'   inputs$fore$Flimitfraction <- -1 # set to -1 to use matrix of time-varying buffers
+#'   inputs$fore$Flimitfraction_m <- get_buffer(years = 2025:2036, sigma = 1.0, pstar = 0.4)
+#'   r4ss::SS_write(inputs, dir = mydir, overwrite = TRUE)
+#' }
 #' @author written by Chantel Wetzel
 #' @export
 #'
-get_buffer <- function(years, sigma, pstar, m = NULL, report_sigma = FALSE, verbose = TRUE) {
+get_buffer <- function(years, sigma, pstar, m = NULL, verbose = TRUE) {
   r <- dplyr::case_when(
     sigma == 2.0 ~ 0,
     sigma < 2.0 ~ 0.075
@@ -77,21 +82,22 @@ get_buffer <- function(years, sigma, pstar, m = NULL, report_sigma = FALSE, verb
       }
     }
     buffer[category_3] <- max_buffer
+    sigma_calc[category_3] <- 2.0 # cap sigma to match the capped buffer for those years
   }
 
+  # combine resulting into a table for output
   out <- data.frame(
     year = years,
-    buffer = round(buffer, 3)
-
+    # buffer is typically rounded to 3 digits
+    buffer = round(buffer, 3),
+    # adding a column of "#" so the sigma column will be ignored
+    # by SS3 when reading the forecast file
+    hash = "#",
+    # rounding sigma to 4 digits because the for many stocks the
+    # 0.075 adjustment and the default sigma = 0.5 result in values
+    # that are exact to 4 digits.
+    sigma = round(sigma_calc, 4)
   )
-
-  # optionally report sigma
-  # rounding to 4 digits because the for many stocks, the combination of the 
-  # 0.075 adjustment and the default sigma = 0.5 is exact to 4 digits. 
-  if (report_sigma) {
-    out$hash <- "#"
-    out$sigma <- round(sigma_calc, 4) 
-  }
 
   return(out)
 }
