@@ -24,6 +24,13 @@
 #' @examples
 #' get_buffer(years = 2025:2036, sigma = 1.0, pstar = 0.4)
 #' get_buffer(years = 2025:2036, sigma = 0.5, pstar = 0.45, m = c(0.16, 0.18))
+#' \dontrun{
+#'   # add buffer to forecast file of SS3 model
+#'   inputs <- r4ss::SS_read(mydir)
+#'   inputs$fore$Flimitfraction <- -1 # set to -1 to use matrix of time-varying buffers
+#'   inputs$fore$Flimitfraction_m <- get_buffer(years = 2025:2036, sigma = 1.0, pstar = 0.4)
+#'   r4ss::SS_write(inputs, dir = mydir, overwrite = TRUE)
+#' }
 #' @author written by Chantel Wetzel
 #' @export
 #'
@@ -75,11 +82,21 @@ get_buffer <- function(years, sigma, pstar, m = NULL, verbose = TRUE) {
       }
     }
     buffer[category_3] <- max_buffer
+    sigma_calc[category_3] <- 2.0 # cap sigma to match the capped buffer for those years
   }
 
+  # combine results into a table for output
   out <- data.frame(
     year = years,
-    buffer = round(buffer, 3)
+    # buffer is typically rounded to 3 digits
+    buffer = round(buffer, 3),
+    # adding a column of "#" so the sigma column will be ignored
+    # by SS3 when reading the forecast file
+    hash = "#",
+    # rounding sigma to 4 digits because for many stocks the
+    # 0.075 adjustment and the default sigma = 0.5 result in values
+    # that are exact to 4 digits.
+    sigma = round(sigma_calc, 4)
   )
 
   return(out)
